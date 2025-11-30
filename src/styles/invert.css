@@ -1,0 +1,13 @@
+
+/* Global Invert Mode - Handled via class on HTML to prevent Sticky issues */
+html.invert-mode {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9);
+    background-color: black;
+}
+
+/* Images and Media should be re-inverted to look normal */
+html.invert-mode img, 
+html.invert-mode video,
+html.invert-mode .re-invert {
+    filter: invert(1) hue-rotate(180deg);
+}
