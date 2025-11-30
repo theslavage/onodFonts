@@ -1,23 +1,15 @@
-# зависимости
 node_modules/
-
-# билд
 dist/
 build/
 
-# логи
+.idea/
+.vscode/
+.DS_Store
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# IDE
-.idea/
-.vscode/
-
-# системные
-.DS_Store
-
-# env
 .env
 .env.*
