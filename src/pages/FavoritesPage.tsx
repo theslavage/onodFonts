@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Font } from "@/data/mockFonts";
+import { Font } from "../types/font.types";
 import { Heart, ArrowLeft, MoveHorizontal } from "lucide-react";
-import { FontCard } from "@/components/FontCard";
-import { useLanguage } from "@/lib/i18n";
+import { FontCard } from "../components/FontCard";
+import { useLanguage } from "../lib/i18n";
 
 interface FavoritesProps {
   fonts: Font[];

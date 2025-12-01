@@ -1,12 +1,11 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 interface BrutalButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg" | "icon";
 }
 
-// Renaming visually to "CleanButton" but keeping export name to avoid breaking imports in other files
 export const BrutalButton = React.forwardRef<HTMLButtonElement, BrutalButtonProps>(
   ({ className, variant = "primary", size = "md", ...props }, ref) => {
     const variants = {
@@ -38,7 +37,7 @@ export const BrutalButton = React.forwardRef<HTMLButtonElement, BrutalButtonProp
     );
   }
 );
-BrutalButton.displayName = "BrutalButton"; // Kept for compatibility
+BrutalButton.displayName = "BrutalButton";
 
 export const BrutalBadge = ({ children, className, variant = "default" }: { children: React.ReactNode, className?: string, variant?: "default" | "yellow" | "outline" }) => {
     const variants = {

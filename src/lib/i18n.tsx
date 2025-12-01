@@ -17,8 +17,7 @@ const translations: Translations = {
     "nav.about": "Manifesto",
     "search.placeholder": "Search index...",
     "preview.placeholder": "Type to preview...",
-    
-    // Filters & Sorts
+
     "filters.title": "System Filters",
     "filters.reset": "Reset",
     "filters.categories": "Classification",
@@ -31,8 +30,7 @@ const translations: Translations = {
     "sort.alpha": "Rank: Alpha",
     "sort.newest": "Rank: Newest",
     "styles.available": "Styles",
-    
-    // Card Actions
+
     "card.inStack": "Queued",
     "card.addToStack": "Queue",
     "card.stacked": "STACKED",
@@ -49,8 +47,7 @@ const translations: Translations = {
     "card.removeFromFavorites": "Forget",
     "card.addToCompare": "Compare",
     "card.removeFromCompare": "Unlink",
-    
-    // Details
+
     "details.back": "Return",
     "details.download": "Download",
     "details.license": "License",
@@ -79,8 +76,7 @@ const translations: Translations = {
     "details.licenseDesc": "Licensed under {license}. Open for digital and print usage.",
     "back": "Back",
     "share": "Share",
-    
-    // Compare / Workbench
+
     "compare.title": "System Workbench",
     "compare.empty": "Workbench empty. Initialize selection.",
     "compare.clear": "Purge",
@@ -98,8 +94,7 @@ const translations: Translations = {
     "compare.base": "Base",
     "compare.ratio": "Ratio",
     "compare.active": "Active Nodes",
-    
-    // Favorites
+
     "favorites.title": "Saved Collection",
     "favorites.empty": "No saved items.",
     "favorites.controls": "Global Params",
@@ -128,7 +123,6 @@ const translations: Translations = {
     "landing.feat.3.title": "Open",
     "landing.feat.3.desc": "MIT & SIL Licenses. Free for commercial use.",
 
-    // New Sections
     "landing.anatomy.title": "Visual Engineering.",
     "landing.anatomy.desc": "Every glyph is a result of mathematical precision. We treat typography as architecture, building robust structures that withstand the test of time and scaling.",
     "landing.anatomy.label": "Fig. 02 — Geometry",
@@ -185,7 +179,6 @@ const translations: Translations = {
     "landing.cta": "ENTER ARCHIVE",
     "landing.ticker": " /// FORM FOLLOWS FUNCTION /// SYSTEMATIC DESIGN /// DIGITAL TYPOGRAPHY /// OPEN SOURCE /// ",
 
-    // Preview placeholders (ALWAYS ENGLISH)
     "preview.title": "Systematic Design.",
     "preview.subtitle": "Form follows function.",
     "preview.meta": "Meta",

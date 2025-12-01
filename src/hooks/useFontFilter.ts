@@ -1,45 +1,74 @@
-import React from "react";
-import { FilterState } from "@/components/FilterPanel";
-import { Font } from "@/data/mockFonts";
+import { useMemo } from "react";
+import type { FilterState } from "../types";
+import type { Font } from "../types/font.types";
 
-export const useFontFilter = (fonts: Font[], filters: FilterState) => {
-  return React.useMemo(() => {
+function matchesSearch(font: Font, search: string): boolean {
+  if (!search.trim()) return true;
+
+  const query = search.toLowerCase();
+
+  return (
+      font.name.toLowerCase().includes(query) ||
+      font.author.toLowerCase().includes(query)
+  );
+}
+
+function matchesCategories(font: Font, selected: string[]): boolean {
+  if (selected.length === 0) return true;
+
+  return selected.some((filterCategory) =>
+      font.categories.some(
+          (fontCategory) =>
+              fontCategory.toLowerCase().includes(filterCategory.toLowerCase()) ||
+              filterCategory.toLowerCase().includes(fontCategory.toLowerCase())
+      )
+  );
+}
+
+function matchesLanguages(font: Font, selected: string[]): boolean {
+  if (selected.length === 0) return true;
+
+  return selected.some((lang) =>
+      font.languages.some((fontLang) =>
+          fontLang.toLowerCase().includes(lang.toLowerCase())
+      )
+  );
+}
+
+function matchesSources(font: Font, selected: string[]): boolean {
+  if (selected.length === 0) return true;
+  return selected.includes(font.source);
+}
+
+function matchesVariable(font: Font, variableOnly: boolean): boolean {
+  if (!variableOnly) return true;
+  return font.variable;
+}
+
+function matchesLicenses(font: Font, selected: string[]): boolean {
+  if (selected.length === 0) return true;
+
+  const license = font.license.toLowerCase();
+
+  return selected.some((item) => {
+    const value = item.toLowerCase();
+    return license === value || license.includes(value);
+  });
+}
+
+export function useFontFilter(fonts: Font[], filters: FilterState): Font[] {
+  return useMemo(() => {
+    if (!fonts || fonts.length === 0) return [];
+
     return fonts.filter((font) => {
-      // Search Text
-      if (filters.search && !font.name.toLowerCase().includes(filters.search.toLowerCase())) {
-        return false;
-      }
-      // Categories (Array check)
-      if (filters.categories.length > 0) {
-        const hasCategory = filters.categories.some(filterCat => 
-            font.categories.some(fontCat => fontCat.includes(filterCat) || filterCat.includes(fontCat))
-        );
-        if (!hasCategory) return false;
-      }
-      // Languages
-      if (filters.languages.length > 0) {
-        const hasLanguage = filters.languages.some((lang) => 
-             font.languages.some(l => l.toLowerCase().includes(lang.toLowerCase()))
-        );
-        if (!hasLanguage) return false;
-      }
-      // Sources
-      if (filters.sources.length > 0) {
-          if (!filters.sources.includes(font.source)) {
-              return false;
-          }
-      }
-      // Variable
-      if (filters.variableOnly && !font.variable) {
-        return false;
-      }
-      // Licenses
-      if (filters.licenses.length > 0 && !filters.licenses.includes(font.license)) {
-        // Fuzzy match for license
-        const hasLicense = filters.licenses.some(l => font.license.includes(l));
-        if (!hasLicense) return false;
-      }
+      if (!matchesSearch(font, filters.search)) return false;
+      if (!matchesCategories(font, filters.categories)) return false;
+      if (!matchesLanguages(font, filters.languages)) return false;
+      if (!matchesSources(font, filters.sources)) return false;
+      if (!matchesVariable(font, filters.variableOnly)) return false;
+      if (!matchesLicenses(font, filters.licenses)) return false;
+
       return true;
     });
   }, [fonts, filters]);
-};
+}

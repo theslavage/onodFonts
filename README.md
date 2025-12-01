@@ -1,10 +1,10 @@
-# 🎨 ONOD FONTS — приложение для работы со шрифтами и типографикой
+# 🎨 ONOD FONTS — an app for working with fonts and typography
 
-ONOD FONTS — это небольшое приложение для дизайнеров и фронтенд-разработчиков, которое помогает работать со шрифтами и типографикой: подбирать сочетания, смотреть, как шрифты выглядят в интерфейсе, и тестировать различные текстовые стили.
+ONOD FONTS is an app for designers and front-end developers that helps them work with fonts and typography: choosing combinations, previewing fonts in the interface, and testing different text styles.
 
 ---
 
-## 🔧 Технологии
+## 🔧 Technologies
 
 - **React**
 - **JavaScript**
@@ -12,27 +12,26 @@ ONOD FONTS — это небольшое приложение для дизай�
 
 ---
 
-## 📦 Предварительные требования
+## 📦 Prerequisites
 
-Перед запуском убедитесь, что у вас установлено:
+Before starting, make sure you have the following installed:
 
-- **Node.js** (рекомендуемая версия: LTS 18.x / 20.x)
-- **npm** (идёт в составе Node.js)
+- **Node.js** (recommended version: LTS 18.x / 20.x)
+- **npm** (included with Node.js)
 
-Проверить версии можно командами:
+You can check the versions with the following commands:
 
 node -v
 npm -v
 
+🚀 Installing and running the project
 
-🚀 Установка и запуск проекта
+1. Clone the repository
+- git clone https://github.com/theslavage/onodFonts.git
+- cd onodFonts
 
-1. Клонировать репозиторий
- - git clone https://github.com/theslavage/onodFonts.git
- - cd onodFonts
+2. Install dependencies
+- npm i
 
-2. Установить зависимости
-   - npm i
-   
-3. Запустить приложение в режиме разработки
-   - npm run dev
+3. Run the application in development mode
+- npm run dev

@@ -1,69 +1,59 @@
-// --- Interfaces ---
-export interface Font {
-  id: string;
-  name: string;
-  author: string;
-  description: string;
-  variable: boolean;
-  categories: string[];
-  languages: string[];
-  license: string;
-  source: string;
-  sourceUrl: string;
-  downloadUrl?: string;
-  customCssUrl?: string; // New field for external CDNs (GitHub, Vercel, etc.)
-  weights: string[];
-  styles: string[];
-  tags: string[];
-  cssStack: string;
-}
+import type { Font } from "../types/font.types";
 
-// --- KNOWN CYRILLIC FONTS LIST (Expanded) ---
 const CYRILLIC_SUPPORTED = new Set([
-  // Standard & Google Fonts
-  "PT Sans", "PT Serif", "PT Mono", "PT Sans Caption", "PT Serif Caption", "PT Sans Narrow", "Golos Text",
-  "Roboto", "Roboto Slab", "Roboto Mono", "Roboto Condensed", "Open Sans", "Open Sans Condensed",
-  "Montserrat", "Montserrat Alternates", "Inter", "Lato", "Ubuntu", "Ubuntu Mono", "Ubuntu Condensed",
-  "Merriweather", "Merriweather Sans", "Playfair Display", "Playfair Display SC", "Lora", "Nunito", "Nunito Sans",
-  "Fira Sans", "Fira Mono", "Fira Sans Condensed", "Fira Sans Extra Condensed", "Fira Code",
-  "Alegreya", "Alegreya Sans", "Alegreya SC", "Alegreya Sans SC", "Cormorant", "Cormorant Garamond",
-  "Arimo", "Tinos", "Cousine", "Rubik", "Rubik Mono One", "Exo", "Exo 2", "Comfortaa", "Marmelad",
-  "Kelly Slab", "Ruslan Display", "Russo One", "Stalinist One", "Yanone Kaffeesatz", "Jura", "Tenor Sans",
-  "Underdog", "Oranienbaum", "Bad Script", "Marck Script", "Neucha", "Pattaya", "Poiret One", "Philosopher",
-  "Didact Gothic", "Istok Web", "Ledger", "Scada", "Vollkorn", "Old Standard TT", "Forum", "Cuprum",
-  "Alice", "Lobster", "Arvo", "Bebas Neue", "Oswald", "Source Sans Pro", "Source Serif Pro", "Source Code Pro",
-  "IBM Plex Sans", "IBM Plex Serif", "IBM Plex Mono", "Manrope", "Jost", "Caveat", "Pacifico", "Amatic SC",
-  "Kurale", "Comforter", "Comforter Brush", "Pangolin", "Seymour One", "Knospe", "Stellari", "Press Start 2P",
-  "Arsenal", "Asap", "Asap Condensed", "Bitter", "Literata", "Podkova", "Spectral", "Vollkorn SC",
-  "El Messiri", "Gabriela", "Kurale", "Lumberjack", "Prosto One", "Rarmaraja", "Rubik Bubbles", "Rubik Glitch",
-  "Rubik Microbe", "Rubik Moonrocks", "Rubik Puddles", "Rubik Wet Paint", "Rubik Beastly",
-  "Noto Sans", "Noto Serif", "Noto Sans Mono", "JetBrains Mono", "Titillium Web", "Raleway",
-  "Play", "Vollkorn", "Ubuntu Condensed", "Cuprum", "Maven Pro", "Poiret One", "Andika",
-  "Anonymous Pro", "Bellota", "Bellota Text", "Bona Nova", "Comic Neue", "Cormorant Infant", "Cormorant SC", "Cormorant Unicase",
-  "Courier Prime", "EB Garamond", "Kosugi", "Kosugi Maru", "Lemonada", "Murecho", "Noto Sans Display", "Noto Serif Display",
-  "Peralta", "Sawarabi Gothic", "Sawarabi Mincho", "Yeseva One",
-  
-  // Fontshare (ITF) - Known to support Cyrillic
-  "Satoshi", "General Sans", "Clash Display", "Cabinet Grotesk", "Switzer", "Sentient", "Boska", "Pally", "Ranade", "Excon", "Zodiak"
+
+    "PT Sans", "PT Serif", "PT Mono", "PT Sans Caption", "PT Serif Caption", "PT Sans Narrow", "Golos Text",
+    "Roboto", "Roboto Slab", "Roboto Mono", "Roboto Condensed", "Open Sans", "Open Sans Condensed",
+    "Montserrat", "Montserrat Alternates", "Inter", "Lato", "Ubuntu", "Ubuntu Mono", "Ubuntu Condensed",
+    "Merriweather", "Merriweather Sans", "Playfair Display", "Playfair Display SC", "Lora", "Nunito", "Nunito Sans",
+    "Fira Sans", "Fira Mono", "Fira Sans Condensed", "Fira Sans Extra Condensed", "Fira Code",
+    "Alegreya", "Alegreya Sans", "Alegreya SC", "Alegreya Sans SC", "Cormorant", "Cormorant Garamond",
+    "Arimo", "Tinos", "Cousine", "Rubik", "Rubik Mono One", "Exo", "Exo 2", "Comfortaa", "Marmelad",
+    "Kelly Slab", "Ruslan Display", "Russo One", "Stalinist One", "Yanone Kaffeesatz", "Jura", "Tenor Sans",
+    "Underdog", "Oranienbaum", "Bad Script", "Marck Script", "Neucha", "Pattaya", "Poiret One", "Philosopher",
+    "Didact Gothic", "Istok Web", "Ledger", "Scada", "Vollkorn", "Old Standard TT", "Forum", "Cuprum",
+    "Alice", "Lobster", "Arvo", "Bebas Neue", "Oswald", "Source Sans Pro", "Source Serif Pro", "Source Code Pro",
+    "IBM Plex Sans", "IBM Plex Serif", "IBM Plex Mono", "Manrope", "Jost", "Caveat", "Pacifico", "Amatic SC",
+    "Kurale", "Comforter", "Comforter Brush", "Pangolin", "Seymour One", "Knospe", "Stellari", "Press Start 2P",
+    "Arsenal", "Asap", "Asap Condensed", "Bitter", "Literata", "Podkova", "Spectral", "Vollkorn SC",
+    "El Messiri", "Gabriela", "Kurale", "Lumberjack", "Prosto One", "Rarmaraja", "Rubik Bubbles", "Rubik Glitch",
+    "Rubik Microbe", "Rubik Moonrocks", "Rubik Puddles", "Rubik Wet Paint", "Rubik Beastly",
+    "Noto Sans", "Noto Serif", "Noto Sans Mono", "JetBrains Mono", "Titillium Web", "Raleway",
+    "Play", "Vollkorn", "Ubuntu Condensed", "Cuprum", "Maven Pro", "Poiret One", "Andika",
+    "Anonymous Pro", "Bellota", "Bellota Text", "Bona Nova", "Comic Neue", "Cormorant Infant", "Cormorant SC", "Cormorant Unicase",
+    "Courier Prime", "EB Garamond", "Kosugi", "Kosugi Maru", "Lemonada", "Murecho", "Noto Sans Display", "Noto Serif Display",
+    "Peralta", "Sawarabi Gothic", "Sawarabi Mincho", "Yeseva One",
+
+    // Fontshare (ITF) - Known to support Cyrillic
+    "Satoshi", "General Sans", "Clash Display", "Cabinet Grotesk", "Switzer", "Sentient", "Boska", "Pally", "Ranade", "Excon", "Zodiak"
 ]);
 
 // --- Helper Functions ---
-const genWeights = (count: number) => {
-  if (count === 1) return ["400"];
-  const steps = ["100", "200", "300", "400", "500", "600", "700", "800", "900"];
-  if (count >= 9) return steps;
-  if (count === 2) return ["400", "700"];
-  const result = [];
-  const stepSize = Math.floor(9 / count);
-  for(let i=0; i<count; i++) {
-     result.push(steps[Math.min(8, i * stepSize + (i > 0 ? 1 : 0))]); 
-  }
-  return result;
+const genWeights = (count: number): string[] => {
+    if (count === 1) return ["400"];
+    const steps = ["100", "200", "300", "400", "500", "600", "700", "800", "900"];
+    if (count >= 9) return steps;
+    if (count === 2) return ["400", "700"];
+    const result: string[] = [];
+    const stepSize = Math.floor(9 / count);
+    for(let i=0; i<count; i++) {
+        result.push(steps[Math.min(8, i * stepSize + (i > 0 ? 1 : 0))]);
+    }
+    return result;
 };
 
-const createFont = (name: string, cat: string, authorName: string, sourcePlatform: string, idPrefix: string, index: number, wCount: number = 4, isVar: boolean = false): Font => {
+const createFont = (
+    name: string,
+    cat: string,
+    authorName: string,
+    sourcePlatform: string,
+    idPrefix: string,
+    index: number,
+    wCount: number = 4,
+    isVar: boolean = false
+): Font => {
     let url = `https://fonts.google.com/specimen/${name.replace(/ /g, "+")}`;
-    
+
     // Platform specific URLs
     if (sourcePlatform === "Fontshare") url = `https://www.fontshare.com/fonts/${name.toLowerCase().replace(/ /g, "-")}`;
     if (sourcePlatform === "Velvetyne") url = `https://velvetyne.fr/fonts/${name.toLowerCase().replace(/ /g, "-")}/`;
@@ -73,9 +63,7 @@ const createFont = (name: string, cat: string, authorName: string, sourcePlatfor
     if (sourcePlatform === "Collletttivo") url = `https://collletttivo.it/`;
     if (sourcePlatform === "Open Foundry") url = `https://open-foundry.com/fonts/${name.toLowerCase().replace(/ /g, "_")}`;
 
-    // Language Logic
-    const languages = ["Latin"];
-    // Check whitelist or specific authors known for Cyrillic
+    const languages: string[] = ["Latin"];
     if (CYRILLIC_SUPPORTED.has(name) || authorName === "ParaType" || name.startsWith("PT ") || name.includes("Cyrillic")) {
         languages.push("Cyrillic");
     }
@@ -103,7 +91,6 @@ const createFont = (name: string, cat: string, authorName: string, sourcePlatfor
     };
 };
 
-// --- DATASETS ---
 
 // 1. ParaType (Source: Google Fonts)
 const paraTypeData = [
@@ -132,7 +119,6 @@ const arrowData = ["Recursive|sans-serif|9|1", "Name Sans|sans-serif|9|1", "Shan
 // const velvetyneData = ["Avara|serif", "BackOut|display", "Basteleur|serif", "Bluu Next|serif", "Boogy Brut|display", "Brassia|serif", "Brenner|sans-serif", "Compagnon|monospaced", "Digestive|display", "Dune Rise|display", "Faune|sans-serif", "Fandango|display", "Fluo|display", "Gnoncents|handwriting", "Good Times|display", "Grotesk|sans-serif", "Happy Times at the IKOB|serif", "Hermes|sans-serif", "Infrarouge|display", "Jachien|display", "Kaerukaeru|display", "Karrik|sans-serif", "Lack|sans-serif", "Le Murmure|serif", "Libertine|serif", "Lineal|sans-serif", "Minipax|serif", "Millimetre|sans-serif", "Mister Pixel|display", "Monowannabe|monospaced", "Mont Blanc|sans-serif", "Ouroboros|display", "Outward|display", "PicNic|display", "Pilowlava|display", "Process|monospaced", "Prophet|sans-serif", "Résistance|display", "Selas|sans-serif", "Solide Mirage|sans-serif", "Sporting Grotesque|sans-serif", "Trickster|display", "Typefesse|display", "Whois Mono|monospaced", "Zai|display", "Zenith|display", "Hyper Scrypt|display", "Terminal Grotesque|monospaced", "Steps Mono|monospaced", "Pixel|display", "Format 1452|sans-serif", "Cactus|display"];
 
 // 10. The League of Moveable Type (Independent)
-// Filtered to only include those known to be on Google Fonts
 const leagueData = ["League Gothic", "League Spartan", "League Script", "Knewave", "Sniglet", "Raleway", "Orbitron", "Prociono", "Goudy Bookletter 1911", "Sorts Mill Goudy", "Linden Hill", "Fanwood Text", "Alice"];
 
 // 11. Fontshare (Indian Type Foundry) - Exclusives
@@ -151,12 +137,11 @@ const googleMiscData = ["Hind", "Kalam", "Poppins", "Rajdhani", "Yantramanav", "
 // const openFoundryData = ["Bagnard|serif", "Minotaur|display", "Regle|sans-serif", "Wremena|serif", "Varta|sans-serif"];
 
 // 14. Google Early Access (CJK) - Merged into Google Fonts
-const earlyAccessData = ["Noto Sans JP|sans-serif", "Noto Serif JP|serif", "Noto Sans KR|sans-serif", "Noto Serif KR|serif", "Noto Sans TC|sans-serif", "Noto Serif TC|serif"];
+const earlyAccessData = ["Noto Sans JP|sans-serif|sans-serif", "Noto Serif JP|serif|serif", "Noto Sans KR|sans-serif|sans-serif", "Noto Serif KR|serif|serif", "Noto Sans TC|sans-serif|sans-serif", "Noto Serif TC|serif|serif"];
 
 // 15. Classic / Google Mix (Filtered)
 const classicData = ["Pacifico", "Source Sans Pro", "Ubuntu", "Droid Sans", "Oxygen", "Titillium Web", "Inconsolata", "Indie Flower", "Vollkorn", "Signika", "Ubuntu Condensed", "Play", "Muli", "Cuprum", "Maven Pro", "Poiret One", "Hammersmith One", "Armata", "Nobile", "Molengo", "Pontano Sans", "Mutlu", "Mentone", "Existence", "Audimat", "Delicious", "Fontin", "Fontin Sans", "Fertigo Pro", "Diavlo", "Museo Slab", "Museo Sans", "Calluna", "Calluna Sans", "Anivers", "Jura", "Banda", "Semplicita", "Caviar Dreams", "Champagne & Limousines", "Aller", "Walkway", "Code", "Dekar", "Hattori Hanzo", "Telegrafico", "District Thin", "GoodDog", "Grand Hotel", "Great Vibes", "Sofia", "Alex Brush", "Black Jack", "Windsong", "Learning Curve Pro", "Wisdom Script", "Mathlete", "Lane", "Nevis", "Tartine Script", "Tangerine", "Rochester", "Pinyon Script", "Sacramento", "Parisienne", "Cookie", "Allura", "Arizonia", "Bad Script", "Bilbo", "Calligraffitti", "Cedarville Cursive", "Clicker Script", "Coming Soon", "Covered By Your Grace", "Crafty Girls", "Damion", "Dawning of a New Day", "Delius", "Delius Swash Caps", "Delius Unicase", "Devonshire", "Dondoo", "Dr Sugiyama", "Eagle Lake", "Engagement", "Euphoria Script", "Felipa", "Fondamento", "Give You Glory", "Gochi Hand", "Grape Nuts", "Handlee", "Herr Von Muellerhoff", "Homemade Apple", "Italianno", "Jim Nightshade", "Julee", "Just Me Again Down Here", "Kalam", "Kristi", "La Belle Aurore", "Leckerli One", "Loved by the King", "Lovers Quarrel", "Marck Script", "Meddon", "Meie Script", "Merienda", "Merienda One", "Miss Fajardose", "Mr Bedfort", "Mr Dafoe", "Mr De Haviland", "Mrs Saint Delafield", "Mrs Sheppards", "Neucha", "Niconne", "Nothing You Could Do", "Over the Rainbow", "Petit Formal Script", "Pinyon Script", "Playball", "Quintessential", "Qwigley", "Rancho", "Redressed", "Rouge Script", "Ruthie", "Sacramento", "Schoolbell", "Shadows Into Light", "Shadows Into Light Two", "Sirin Stencil", "Sue Ellen Francisco", "Sunshiney", "Swanky and Moo Moo", "Tangerine", "The Girl Next Door", "Unkempt", "Vibur", "Waiting for the Sunrise", "Walter Turncoat", "Yellowtail", "Yesteryear", "Zeyada"];
 
-// --- Build the Final Array ---
 
 const fonts: Font[] = [];
 const seenNames = new Set<string>();
@@ -187,20 +172,16 @@ omnibusData.forEach(item => { const parts = item.split("|"); addFont(createFont(
 huertaData.forEach(item => { const parts = item.split("|"); addFont(createFont(parts[0], parts[1], "Huerta Tipográfica", "Google Fonts", "huerta", globalIndex++, parseInt(parts[2]), parts[3] === "1")); });
 arrowData.forEach(item => { const parts = item.split("|"); addFont(createFont(parts[0], parts[1], "Arrow Type", "Google Fonts", "arrow", globalIndex++, parseInt(parts[2]), parts[3] === "1")); });
 earlyAccessData.forEach(item => { const parts = item.split("|"); addFont(createFont(parts[0], parts[1], "Google Inc", "Google Fonts", "early", globalIndex++, 4, false)); });
-classicData.forEach((item, i) => { 
+classicData.forEach((item, i) => {
     const cat = guessCategory(item);
     const isVar = i % 10 === 0;
     const weights = i % 3 === 0 ? 1 : 4;
     addFont(createFont(item, cat, "Various Authors", "Google Fonts", "google", globalIndex++, weights, isVar));
 });
 
-// Add Independent Platforms
 leagueData.forEach(item => { addFont(createFont(item, guessCategory(item), "The League of Moveable Type", "The League of Moveable Type", "league", globalIndex++, 4, false)); });
 fontshareData.forEach(item => { addFont(createFont(item, guessCategory(item, "sans-serif"), "Indian Type Foundry", "Fontshare", "itf", globalIndex++, 8, true)); });
 googleMiscData.forEach(item => { addFont(createFont(item, guessCategory(item), "Various", "Google Fonts", "g-misc", globalIndex++, 4, true)); });
-// fontLibraryData.forEach(item => { const parts = item.split("|"); fonts.push(createFont(parts[0], parts[1], "Various", "Font Library", "fl", globalIndex++, 4, false)); });
-// openFoundryData.forEach(item => { const parts = item.split("|"); fonts.push(createFont(parts[0], parts[1], "Various", "Open Foundry", "of", globalIndex++, 4, false)); });
-
 
 // 16. GitHub Design System
 addFont({
@@ -214,7 +195,7 @@ addFont({
     license: "OFL",
     source: "GitHub",
     sourceUrl: "https://github.com/mona-sans",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@github/mona-sans@1.0.1/dist/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@github/mona-sans",
     weights: ["200", "300", "400", "500", "600", "700", "800", "900"],
     styles: ["Variable"],
     tags: ["sans-serif", "variable", "github", "industrial"],
@@ -232,20 +213,18 @@ addFont({
     license: "OFL",
     source: "GitHub",
     sourceUrl: "https://github.com/hubot-sans",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@github/hubot-sans@1.0.1/dist/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@github/hubot-sans",
     weights: ["200", "300", "400", "500", "600", "700", "800", "900"],
     styles: ["Variable"],
     tags: ["sans-serif", "variable", "github", "robot"],
     cssStack: "'Hubot Sans', sans-serif"
 });
 
-// 17. Vercel Design System (Mock - via CDN fallback or next/font simulation if available, here using a generic geist-like cdn or similar)
-// Note: Real Geist is usually loaded via Next.js optimizations. We'll use a JSDelivr mirror if available or skip. 
-// Actually, let's add IBM Plex via Google Fonts explicitly to ensure it's covered as "System"
+// 17. Vercel Design System
 addFont(createFont("IBM Plex Sans", "sans-serif", "IBM", "Google Fonts", "ibm", 999, 7, false));
 addFont(createFont("IBM Plex Mono", "monospaced", "IBM", "Google Fonts", "ibm", 1000, 7, false));
 
-// 18. Pretendard (Platform: Cactus)
+// 18. Pretendard
 addFont({
     id: "pretendard",
     name: "Pretendard",
@@ -265,11 +244,11 @@ addFont({
 });
 
 // 19. Uncut.wtf / Independent Curated
-// Using Google Fonts links for stability but labeling as Independent for the filter if they are known indie darlings
+
 const indieFoundriesData = [
-    "Space Grotesk|sans-serif|Florian Karsten", 
-    "Syne|display|Bonjour Monde", 
-    "Outfit|sans-serif|Outfit", 
+    "Space Grotesk|sans-serif|Florian Karsten",
+    "Syne|display|Bonjour Monde",
+    "Outfit|sans-serif|Outfit",
     "Epilogue|sans-serif|Etcetera",
     "Fraunces|serif|Undercase",
     "Literata|serif|TypeTogether",
@@ -294,10 +273,9 @@ addFont({
     license: "OFL",
     source: "USWDS",
     sourceUrl: "https://public-sans.digital.gov/",
-    // Public Sans is on Google Fonts, so we can use the standard loader logic if we use createFont, 
+    // Public Sans is on Google Fonts, so we can use the standard loader logic if we use createFont,
     // but let's use createFont to keep it simple and reliable via Google CDN
     ...createFont("Public Sans", "sans-serif", "USWDS", "USWDS", "uswds", globalIndex++, 9, true),
-    source: "USWDS" // Override source label
 });
 
 // 21. Hack (Source Foundry)
@@ -312,7 +290,7 @@ addFont({
     license: "MIT",
     source: "Source Foundry",
     sourceUrl: "https://sourcefoundry.org/hack/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/hack-font",
     weights: ["400", "700"],
     styles: ["Regular", "Bold", "Italic"],
     tags: ["code", "mono", "developer"],
@@ -331,7 +309,7 @@ addFont({
     license: "OFL",
     source: "Microsoft",
     sourceUrl: "https://github.com/microsoft/cascadia-code",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@4.2.1/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code",
     weights: ["200", "300", "400", "500", "600", "700"],
     styles: ["Regular", "Italic"],
     tags: ["code", "terminal", "windows", "microsoft"],
@@ -350,7 +328,7 @@ addFont({
     license: "OFL",
     source: "Intel",
     sourceUrl: "https://github.com/intel/intel-one-mono",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/intel-one-mono@1.3.0/dist/css/intel-one-mono.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/intel-one-mono",
     weights: ["400", "500", "700"],
     styles: ["Regular", "Bold", "Italic"],
     tags: ["code", "hardware", "intel", "industrial"],
@@ -369,7 +347,7 @@ addFont({
     license: "OFL",
     source: "Smithsonian",
     sourceUrl: "https://www.cooperhewitt.org/open-source-at-cooper-hewitt/cooper-hewitt-the-typeface-by-chester-jenkins/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/cooper-hewitt@5.0.3/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/cooper-hewitt",
     weights: ["100", "300", "400", "500", "600", "700", "800"],
     styles: ["Regular", "Italic"],
     tags: ["museum", "design", "geometric", "art"],
@@ -388,7 +366,7 @@ addFont({
     license: "OFL",
     source: "Community",
     sourceUrl: "https://typeof.net/Iosevka/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/iosevka@5.0.8/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/iosevka",
     weights: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     styles: ["Regular", "Oblique"],
     tags: ["procedural", "code", "tech", "narrow"],
@@ -454,7 +432,7 @@ addFont({
     license: "OFL",
     source: "Vercel",
     sourceUrl: "https://vercel.com/font",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/geist",
     weights: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     styles: ["Variable"],
     tags: ["clean", "modern", "vercel", "interface"],
@@ -471,7 +449,7 @@ addFont({
     license: "OFL",
     source: "Vercel",
     sourceUrl: "https://vercel.com/font",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/style.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/geist",
     weights: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     styles: ["Variable"],
     tags: ["code", "console", "vercel", "mono"],
@@ -499,7 +477,7 @@ monaspaceFonts.forEach(font => {
         license: "OFL",
         source: "GitHub Next",
         sourceUrl: "https://monaspace.githubnext.com/",
-        customCssUrl: "https://cdn.jsdelivr.net/npm/@github/monaspace@1.0.0/css/monaspace.css",
+        customCssUrl: "https://cdn.jsdelivr.net/npm/@github/monaspace",
         weights: ["200", "300", "400", "500", "600", "700", "800"],
         styles: ["Variable"],
         tags: ["code", "github", "future", "texture-healing"],
@@ -519,7 +497,7 @@ addFont({
     license: "BSD",
     source: "Go Project",
     sourceUrl: "https://go.dev/blog/go-fonts",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/go-sans@5.0.8/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/go-sans",
     weights: ["400", "500", "700"],
     styles: ["Regular", "Italic"],
     tags: ["google", "golang", "system", "ui"],
@@ -536,7 +514,7 @@ addFont({
     license: "BSD",
     source: "Go Project",
     sourceUrl: "https://go.dev/blog/go-fonts",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/go-mono@5.0.8/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/@fontsource/go-mono",
     weights: ["400", "500", "700"],
     styles: ["Regular", "Italic"],
     tags: ["code", "golang", "mono"],
@@ -555,7 +533,7 @@ addFont({
     license: "OFL",
     source: "JetBrains",
     sourceUrl: "https://www.jetbrains.com/lp/mono/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/jetbrains-mono",
     weights: ["100", "200", "300", "400", "500", "600", "700", "800"],
     styles: ["Variable", "Italic"],
     tags: ["ide", "code", "developer", "jetbrains"],
@@ -578,7 +556,7 @@ addFont({
     license: "MIT",
     source: "Indie Coding",
     sourceUrl: "https://rubjo.github.io/victor-mono/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/victor-mono@1.5.5/dist/index.min.css",
+    customCssUrl: "https://cdn.jsdelivr.net/npm/victor-mono",
     weights: ["100", "200", "300", "400", "500", "600", "700"],
     styles: ["Regular", "Italic"],
     tags: ["code", "cursive", "ligatures"],
@@ -596,8 +574,8 @@ addFont({
     license: "OFL",
     source: "Indie Coding",
     sourceUrl: "https://juliamono.netlify.app/",
-    customCssUrl: "https://cdn.jsdelivr.net/npm/juliamono@0.0.52/juliamono.css",
-    weights: ["400", "500", "700"], 
+    customCssUrl: "https://cdn.jsdelivr.net/npm/juliamono",
+    weights: ["400", "500", "700"],
     styles: ["Regular"],
     tags: ["code", "science", "julia", "math"],
     cssStack: "'JuliaMono', monospace"
@@ -608,13 +586,13 @@ addFont(createFont("Gentium Plus", "serif", "SIL", "SIL International", "sil", g
 addFont(createFont("STIX Two Text", "serif", "STIPub", "Scientific", "stix", globalIndex++, 4, true));
 
 // 39. Retro / Pixel (Google Fonts)
-const retroFonts = [];
+const retroFonts: string[] = [];
 retroFonts.forEach(name => {
-     addFont(createFont(name, "display", "Various", "Retro / Pixel", "retro", globalIndex++, 1, false));
+    addFont(createFont(name, "display", "Various", "Retro / Pixel", "retro", globalIndex++, 1, false));
 });
 
 // 40. Industrial Standards (DIN Style)
-const dinFonts = [];
+const dinFonts: string[] = [];
 dinFonts.forEach(name => {
     addFont(createFont(name, "sans-serif", "Jeremy Tribby", "Industrial", "din", globalIndex++, 9, true));
 });
@@ -985,8 +963,7 @@ addFont(createFont("Spectral", "serif", "Production Type", "Screen", "spectral",
 addFont(createFont("Permanent Marker", "handwriting", "Font Diner", "Marker", "permanent", globalIndex++, 1, false));
 addFont(createFont("Rock Salt", "handwriting", "Sideshow", "Grunge", "rocksalt", globalIndex++, 1, false));
 
-// --- SHUFFLE FOR VARIETY ---
-export const mockFonts = fonts
+export const mockFonts: Font[] = fonts
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
